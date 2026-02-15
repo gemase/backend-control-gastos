@@ -19,4 +19,9 @@ Route::prefix('v1')->group(function () {
      * Logout de usuario.
      */
     Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+    /**
+     * Rutas de categorías de movimientos.
+     */
+    require __DIR__ . '/api/categorias.php';
 });
