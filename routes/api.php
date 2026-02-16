@@ -24,4 +24,9 @@ Route::prefix('v1')->group(function () {
      * Rutas de categorías de movimientos.
      */
     require __DIR__ . '/api/categorias.php';
+
+    /**
+     * Rutas de formas de pago.
+     */
+    require __DIR__ . '/api/formas_pago.php';
 });
