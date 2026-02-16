@@ -29,4 +29,9 @@ Route::prefix('v1')->group(function () {
      * Rutas de formas de pago.
      */
     require __DIR__ . '/api/formas_pago.php';
+
+    /**
+     * Rutas de periodos.
+     */
+    require __DIR__ . '/api/periodos.php';
 });
