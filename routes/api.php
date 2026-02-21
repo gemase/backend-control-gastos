@@ -34,4 +34,9 @@ Route::prefix('v1')->group(function () {
      * Rutas de periodos.
      */
     require __DIR__ . '/api/periodos.php';
+
+    /**
+     * Rutas de ingresos.
+     */
+    require __DIR__ . '/api/ingresos.php';
 });
