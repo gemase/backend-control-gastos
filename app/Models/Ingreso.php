@@ -4,43 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
+use App\Models\Periodo;
 
-class FormaPago extends Model
+class Ingreso extends Model
 {
     /**
-     * Indica que la forma de pago está activa.
+     * Indica que el ingreso de movimiento no tiene un periodo asociado.
+     */
+    public const ESTATUS_SIN_PERIODO = 2;
+
+    /**
+     * Indica que el ingreso de movimiento está activo.
      */
     public const ESTATUS_ACTIVO = 1;
 
     /**
-     * Indica que la forma de pago está inactiva.
+     * Indica que el ingreso de movimiento está inactivo.
      */
     public const ESTATUS_INACTIVO = 0;
-
-    /**
-     * Formas de pago predeterminadas para nuevos usuarios.
-     * @var array<int, array<string, string|null>>
-     */
-    public const FORMAS_PAGO_PREDETERMINADAS = [
-        [
-            'nombre' => 'Efectivo',
-            'descripcion' => null,
-        ],
-        [
-            'nombre' => 'Tarjeta de crédito',
-            'descripcion' => null,
-        ],
-        [
-            'nombre' => 'Tarjeta de débito',
-            'descripcion' => null,
-        ],
-    ];
 
     /**
      * Nombre de la tabla asociada al modelo.
      * @var string
      */
-    protected $table = 'formas_pago';
+    protected $table = 'ingresos';
 
     /**
      * Atributos asignables masivamente.
@@ -49,8 +36,10 @@ class FormaPago extends Model
     protected $fillable = [
         'creado_por',
         'nombre',
-        'descripcion',
+        'fecha',
+        'monto',
         'estatus',
+        'id_periodo',
     ];
 
     /**
@@ -65,7 +54,7 @@ class FormaPago extends Model
     public function getEstatusDescripcionAttribute()
     {
         $estatus = $this->estatus ?? self::ESTATUS_ACTIVO;
-        return $estatus == self::ESTATUS_ACTIVO ? 'Activo' : 'Inactivo';
+        return $estatus == self::ESTATUS_ACTIVO ? 'Activo' : ($estatus == self::ESTATUS_INACTIVO ? 'Inactivo' : 'Sin periodo');
     }
 
     /**
@@ -74,5 +63,13 @@ class FormaPago extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'creado_por');
+    }
+
+    /**
+     * Define la relación con el modelo Periodo.
+     */
+    public function periodo()
+    {
+        return $this->belongsTo(Periodo::class, 'id_periodo');
     }
 }
