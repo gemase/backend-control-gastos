@@ -39,4 +39,9 @@ Route::prefix('v1')->group(function () {
      * Rutas de ingresos.
      */
     require __DIR__ . '/api/ingresos.php';
+
+    /**
+     * Rutas de gastos.
+     */
+    require __DIR__ . '/api/gastos.php';
 });
