@@ -8,9 +8,7 @@ use App\Http\Requests\Gasto\EditarGastoRequest;
 use App\Models\Gasto;
 use App\Models\Periodo;
 use Exception;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\Response;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class GastoController extends Controller
@@ -40,6 +38,7 @@ class GastoController extends Controller
             }
 
             $gasto = Gasto::create($datosValidados);
+            $gasto->load('formaPago', 'categoria', 'periodo');
             return response()->json(['status' => true, 'data' => $gasto], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['status' => false, 'error' => ['message' => $e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -69,6 +68,13 @@ class GastoController extends Controller
                 ], Response::HTTP_NOT_FOUND);
             }
 
+            if ($gasto->estatus == Gasto::ESTATUS_CANCELADO) {
+                return response()->json([
+                    'status' => false,
+                    'error' => ['message' => 'El gasto no puede ser actualizado porque se encuentra (' . Gasto::ESTATUS_DESCRIPCIONES[Gasto::ESTATUS_CANCELADO] . ')']
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
             if ((string) $gasto->fecha !== (string) $datosValidados['fecha']) {
                 $periodo = Periodo::where('creado_por', $id_usuario)
                     ->where('fecha_inicio', '<=', $datosValidados['fecha'])
@@ -85,6 +91,7 @@ class GastoController extends Controller
             }
 
             $gasto->update($datosValidados);
+            $gasto->load('formaPago', 'categoria', 'periodo');
 
             return response()->json(['status' => true, 'data' => $gasto], Response::HTTP_OK);
         } catch (Exception $e) {
@@ -117,7 +124,8 @@ class GastoController extends Controller
     {
         try {
             $id_usuario = $request->user()->id;
-            $gasto = Gasto::where('creado_por', $id_usuario)
+            $gasto = Gasto::with('formaPago', 'categoria', 'periodo')
+                ->where('creado_por', $id_usuario)
                 ->where('id', $id)->first();
 
             if (!$gasto) {
@@ -159,11 +167,12 @@ class GastoController extends Controller
             if ($gasto->estatus == Gasto::ESTATUS_CANCELADO) {
                 return response()->json([
                     'status' => false,
-                    'error' => ['message' => 'El gasto ya se encuentra en estatus (Cancelado).']
+                    'error' => ['message' => 'El gasto ya se encuentra en estatus (' . Gasto::ESTATUS_DESCRIPCIONES[Gasto::ESTATUS_CANCELADO] . ').']
                 ], Response::HTTP_BAD_REQUEST);
             }
 
             $gasto->update($datosValidados);
+            $gasto->load('formaPago', 'categoria', 'periodo');
 
             return response()->json(['status' => true, 'data' => $gasto], Response::HTTP_OK);
         } catch (Exception $e) {

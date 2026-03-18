@@ -46,4 +46,12 @@ class Periodo extends Model
     {
         return $this->belongsTo(User::class, 'creado_por');
     }
+
+    /**
+     * Define la relación con el modelo Presupuesto.
+     */
+    public function presupuestos()
+    {
+        return $this->hasMany(Presupuesto::class, 'id_periodo');
+    }
 }

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('creado_por');
             $table->string('nombre', 80);
             $table->string('descripcion', 150)->nullable();
+            $table->decimal('presupuesto_base', 18, 2)->unsigned()->default(0);
             $table->tinyInteger('estatus')->unsigned()->default(1);
             $table->timestamps();
             $table->comment('Catálogo de categorías');
