@@ -31,6 +31,7 @@ class Categoria extends Model
         'creado_por',
         'nombre',
         'descripcion',
+        'presupuesto_base',
         'estatus',
     ];
 
@@ -55,5 +56,13 @@ class Categoria extends Model
     public function usuario()
     {
         return $this->belongsTo(User::class, 'creado_por');
+    }
+
+    /**
+     * Define la relación con el modelo Presupuesto.
+     */
+    public function presupuestos()
+    {
+        return $this->hasMany(Presupuesto::class, 'id_categoria');
     }
 }

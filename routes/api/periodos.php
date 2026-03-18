@@ -24,4 +24,14 @@ Route::middleware('auth:sanctum')->group(function () {
      * Editar un periodo.
      */
     Route::put('/periodos/{id}', [PeriodoController::class, 'actualizarPeriodo']);
+
+    /**
+     * Dashboard del periodo.
+     */
+    Route::get('/periodos/{id}/dashboard', [PeriodoController::class, 'dashboard']);
+
+    /**
+     * Movimientos paginados del periodo.
+     */
+    Route::get('/periodos/{id}/movimientos', [PeriodoController::class, 'movimientos']);
 });

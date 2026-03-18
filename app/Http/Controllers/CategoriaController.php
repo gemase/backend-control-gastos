@@ -8,6 +8,8 @@ use App\Http\Requests\Categoria\EditaCategoriaRequest;
 use Exception;
 use Illuminate\Http\Response;
 use App\Models\Categoria;
+use App\Models\Periodo;
+use App\Models\Presupuesto;
 use Illuminate\Http\Request;
 
 class CategoriaController extends Controller
@@ -35,6 +37,24 @@ class CategoriaController extends Controller
             }
 
             $categoria = Categoria::create($datosValidados);
+
+            //Al crear una nueva categoría, se generan presupuestos con monto 0 para cada periodo del usuario.
+            $periodos = Periodo::where('creado_por', $datosValidados['creado_por'])->get();
+            $presupuestos = [];
+            foreach ($periodos as $periodo) {
+                $presupuestos[] = [
+                    'creado_por' => $categoria->creado_por,
+                    'id_periodo' => $periodo->id,
+                    'id_categoria' => $categoria->id,
+                    'monto' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ];
+            }
+            if (!empty($presupuestos)) {
+                Presupuesto::insert($presupuestos);
+            }
+
             return response()->json(['status' => true, 'data' => $categoria], Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json(['status' => false, 'error' => ['message' => $e->getMessage()]], Response::HTTP_UNPROCESSABLE_ENTITY);
