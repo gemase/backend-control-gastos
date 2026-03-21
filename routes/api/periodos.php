@@ -1,37 +1,41 @@
 <?php
 
+use App\Http\Controllers\Periodo\ActualizarPeriodoController;
+use App\Http\Controllers\Periodo\ConsultarPeriodoPorIdController;
+use App\Http\Controllers\Periodo\CrearPeriodoController;
+use App\Http\Controllers\Periodo\DashboardPeriodoController;
+use App\Http\Controllers\Periodo\ListarPeriodosController;
+use App\Http\Controllers\Periodo\MovimientosPeriodoController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PeriodoController;
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * Crear un nuevo periodo.
      */
-    Route::post('/periodos', [PeriodoController::class, 'crearPeriodo']);
+    Route::post('/periodos', CrearPeriodoController::class);
 
     /**
      * Devuelve periodos.
-
      */
-    Route::get('/periodos', [PeriodoController::class, 'listarPeriodos']);
+    Route::get('/periodos', ListarPeriodosController::class);
 
     /**
      * Devuelve un periodo de manera individual.
      */
-    Route::get('/periodos/{id}', [PeriodoController::class, 'consultarPeriodoPorId']);
+    Route::get('/periodos/{id}', ConsultarPeriodoPorIdController::class);
 
     /**
      * Editar un periodo.
      */
-    Route::put('/periodos/{id}', [PeriodoController::class, 'actualizarPeriodo']);
+    Route::put('/periodos/{id}', ActualizarPeriodoController::class);
 
     /**
      * Dashboard del periodo.
      */
-    Route::get('/periodos/{id}/dashboard', [PeriodoController::class, 'dashboard']);
+    Route::get('/periodos/{id}/dashboard', DashboardPeriodoController::class);
 
     /**
-     * Movimientos paginados del periodo.
+     * Movimientos del periodo.
      */
-    Route::get('/periodos/{id}/movimientos', [PeriodoController::class, 'movimientos']);
+    Route::get('/periodos/{id}/movimientos', MovimientosPeriodoController::class);
 });

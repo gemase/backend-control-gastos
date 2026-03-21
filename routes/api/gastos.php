@@ -1,32 +1,35 @@
 <?php
 
+use App\Http\Controllers\Gasto\ActualizarGastoController;
+use App\Http\Controllers\Gasto\CancelarGastoController;
+use App\Http\Controllers\Gasto\ConsultarGastoPorIdController;
+use App\Http\Controllers\Gasto\CrearGastoController;
+use App\Http\Controllers\Gasto\ListarGastosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GastoController;
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * Crear un nuevo gasto.
      */
-    Route::post('/gastos', [GastoController::class, 'crearGasto']);
+    Route::post('/gastos', CrearGastoController::class);
 
     /**
      * Devuelve gastos.
-
      */
-    Route::get('/gastos', [GastoController::class, 'listarGastos']);
+    Route::get('/gastos', ListarGastosController::class);
 
     /**
      * Devuelve un gasto de manera individual.
      */
-    Route::get('/gastos/{id}', [GastoController::class, 'consultarGastoPorId']);
+    Route::get('/gastos/{id}', ConsultarGastoPorIdController::class);
 
     /**
      * Editar un gasto.
      */
-    Route::put('/gastos/{id}', [GastoController::class, 'actualizarGasto']);
+    Route::put('/gastos/{id}', ActualizarGastoController::class);
 
     /**
      * Cancelar un gasto.
      */
-    Route::patch('/gastos/{id}/cancelar', [GastoController::class, 'cancelarGasto']);
+    Route::patch('/gastos/{id}/cancelar', CancelarGastoController::class);
 });
