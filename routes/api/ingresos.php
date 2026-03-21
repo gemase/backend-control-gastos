@@ -1,32 +1,35 @@
 <?php
 
+use App\Http\Controllers\Ingreso\ActualizarEstatusIngresoController;
+use App\Http\Controllers\Ingreso\ActualizarIngresoController;
+use App\Http\Controllers\Ingreso\ConsultarIngresoPorIdController;
+use App\Http\Controllers\Ingreso\CrearIngresoController;
+use App\Http\Controllers\Ingreso\ListarIngresosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\IngresoController;
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * Crear un nuevo ingreso.
      */
-    Route::post('/ingresos', [IngresoController::class, 'crearIngreso']);
+    Route::post('/ingresos', CrearIngresoController::class);
 
     /**
      * Devuelve ingresos.
-
      */
-    Route::get('/ingresos', [IngresoController::class, 'listarIngresos']);
+    Route::get('/ingresos', ListarIngresosController::class);
 
     /**
      * Devuelve un ingreso de manera individual.
      */
-    Route::get('/ingresos/{id}', [IngresoController::class, 'consultarIngresoPorId']);
+    Route::get('/ingresos/{id}', ConsultarIngresoPorIdController::class);
 
     /**
      * Editar un ingreso.
      */
-    Route::put('/ingresos/{id}', [IngresoController::class, 'actualizarIngreso']);
+    Route::put('/ingresos/{id}', ActualizarIngresoController::class);
 
     /**
      * Editar el estatus de un ingreso.
      */
-    Route::patch('/ingresos/{id}/estatus', [IngresoController::class, 'actualizarEstatusIngreso']);
+    Route::patch('/ingresos/{id}/estatus', ActualizarEstatusIngresoController::class);
 });

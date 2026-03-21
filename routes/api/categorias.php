@@ -1,32 +1,35 @@
 <?php
 
+use App\Http\Controllers\Categoria\ActualizarCategoriaController;
+use App\Http\Controllers\Categoria\ActualizarEstatusCategoriaController;
+use App\Http\Controllers\Categoria\ConsultarCategoriaPorIdController;
+use App\Http\Controllers\Categoria\CrearCategoriaController;
+use App\Http\Controllers\Categoria\ListarCategoriasController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoriaController;
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * Crear una nueva categoría.
      */
-    Route::post('/categorias', [CategoriaController::class, 'crearCategoria']);
+    Route::post('/categorias', CrearCategoriaController::class);
 
     /**
      * Devuelve categorías.
-
      */
-    Route::get('/categorias', [CategoriaController::class, 'listarCategorias']);
+    Route::get('/categorias', ListarCategoriasController::class);
 
     /**
      * Devuelve una categoría de manera individual.
      */
-    Route::get('/categorias/{id}', [CategoriaController::class, 'consultarCategoriaPorId']);
+    Route::get('/categorias/{id}', ConsultarCategoriaPorIdController::class);
 
     /**
      * Editar una categoría.
      */
-    Route::put('/categorias/{id}', [CategoriaController::class, 'actualizarCategoria']);
+    Route::put('/categorias/{id}', ActualizarCategoriaController::class);
 
     /**
      * Editar el estatus de una categoría.
      */
-    Route::patch('/categorias/{id}/estatus', [CategoriaController::class, 'actualizarEstatusCategoria']);
+    Route::patch('/categorias/{id}/estatus', ActualizarEstatusCategoriaController::class);
 });

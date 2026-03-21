@@ -1,21 +1,23 @@
 <?php
 
+use App\Http\Controllers\Presupuesto\ActualizarPresupuestoController;
+use App\Http\Controllers\Presupuesto\ConsultarPresupuestoPorIdController;
+use App\Http\Controllers\Presupuesto\ListarPresupuestosController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PresupuestoController;
 
 Route::middleware('auth:sanctum')->group(function () {
     /**
      * Devuelve presupuestos.
      */
-    Route::get('/presupuestos', [PresupuestoController::class, 'listarPresupuestos']);
+    Route::get('/presupuestos', ListarPresupuestosController::class);
 
     /**
      * Devuelve un presupuesto de manera individual.
      */
-    Route::get('/presupuestos/{id}', [PresupuestoController::class, 'consultarPresupuestoPorId']);
+    Route::get('/presupuestos/{id}', ConsultarPresupuestoPorIdController::class);
 
     /**
      * Editar un presupuesto.
      */
-    Route::put('/presupuestos/{id}', [PresupuestoController::class, 'actualizarPresupuesto']);
+    Route::put('/presupuestos/{id}', ActualizarPresupuestoController::class);
 });

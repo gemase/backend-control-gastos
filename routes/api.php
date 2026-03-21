@@ -1,24 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Usuario\CrearUsuarioController;
 
 Route::prefix('v1')->group(function () {
     /**
      * Crear un nuevo usuario de forma pública.
      */
-    Route::post('/usuarios/crea-publico', [UsuarioController::class, 'creaPublico']);
+    Route::post('/usuarios/crea-publico', CrearUsuarioController::class);
 
     /**
      * Login de usuario.
      */
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/login', LoginController::class)->name('login');
 
     /**
      * Logout de usuario.
      */
-    Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::post('/logout', LogoutController::class)->middleware('auth:sanctum');
 
     /**
      * Rutas de categorías de movimientos.
